@@ -1,0 +1,57 @@
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+
+const HeroSection = () => {
+  return (
+    <div>
+      <section className="relative w-full min-h-125 md:h-150 flex items-center overflow-hidden bg-linear-to-br from-amber-500 to-orange-500 py-12 md:py-0">
+        <div className="absolute inset-0 opacity-10">
+          <Image
+            width={500}
+            height={500}
+            alt="Beach Background"
+            className="w-full h-full object-cover"
+            src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=2000"
+          />
+        </div>
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10 w-full">
+          <div className="space-y-6 text-center md:text-left">
+            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-extrabold text-white leading-tight">
+              Your Summer, Elevated ☀️
+            </h1>
+            <p className="text-base md:text-lg text-white/90 max-w-lg mx-auto md:mx-0">
+              Discover the curated collection of premium essentials designed for
+              your most vibrant season yet. From coastal escapes to city rooftop
+              sun-soaking.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+              <Link
+                href={"/products"}
+                className="px-8 py-4 bg-white text-secondary font-bold rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all active:scale-95"
+              >
+                Shop Now
+              </Link>
+              <button className="px-8 py-4 bg-transparent border-2 border-white/30 text-white font-bold rounded-xl hover:bg-white/10 backdrop-blur-sm transition-all">
+                View Lookbook
+              </button>
+            </div>
+          </div>
+          <div className="hidden md:flex justify-end order-first md:order-last">
+            <div className="relative w-full max-w-[320px] lg:max-w-sm aspect-square rounded-3xl overflow-hidden glass-card p-4 rotate-3 shadow-2xl">
+              <Image
+                width={300}
+                height={300}
+                alt="Summer Essentials"
+                className="w-full h-full object-cover rounded-2xl"
+                src="https://images.unsplash.com/photo-1520333789090-1afc82db536a?auto=format&fit=crop&q=80&w=800"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default HeroSection;
