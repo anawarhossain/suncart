@@ -2,7 +2,7 @@ import React from "react";
 
 const MarqueeHero = () => {
   return (
-    <>
+    <div className="flex justify-center items-center">
       {[1, 2, 3, 4].map((i) => (
         <div key={i} className="flex justify-center items-center gap-12">
           <div className="flex items-center gap-2">
@@ -12,7 +12,7 @@ const MarqueeHero = () => {
           </div>
         </div>
       ))}
-    </>
+    </div>
   );
 };
 

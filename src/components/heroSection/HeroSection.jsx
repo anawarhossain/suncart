@@ -6,9 +6,9 @@ import MarqueeHero from "./MarqueeHero";
 
 const HeroSection = () => {
   return (
-    <div>
-      <div className="w-full bg-linear-to-br from-amber-500 to-orange-500">
-        <section className="relative container mx-auto min-h-125 md:h-150 flex items-center overflow-hidden  py-12 md:py-0">
+    <div className="bg-linear-to-br from-amber-500 to-orange-500">
+      <div className="w-full ">
+        <section className=" container mx-auto min-h-125 md:h-150 flex items-center overflow-hidden  py-12 md:py-0">
           <div className="absolute inset-0 opacity-10">
             <Image
               width={500}
