@@ -1,10 +1,19 @@
-
+"use client";
 import { Globe, Mail, Phone, Send, Sun } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 
+import { useSpring, animated } from "@react-spring/web";
+
 const Footer = () => {
+  const props = useSpring({
+    from: { rotate: 0 },
+    to: { rotate: 360 },
+    loop: true,
+    config: { duration: 8000 }, // slow rotation
+  });
+
   return (
     <footer className="w-full bg-slate-900 border-t border-slate-800 text-sm leading-relaxed mt-auto">
       {/* Top Section */}
@@ -12,7 +21,11 @@ const Footer = () => {
         {/* Brand */}
         <div>
           <div className="text-xl font-bold mb-4 flex items-center gap-2 md:text-2xl text-amber-500">
-            <Sun className="fill-amber-500" size={20} />
+            <animated.div
+              style={{ transform: props.rotate.to((r) => `rotate(${r}deg)`) }}
+            >
+              <Sun className="fill-amber-400 text-amber-500 h-6 w-6 md:h-8 md:w-8" />
+            </animated.div>
             SunCart
           </div>
 

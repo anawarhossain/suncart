@@ -3,6 +3,7 @@ import { Search, ShoppingCart, Sun } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import NavbarMenu from "./NavbarMenu";
+import { useSpring, animated } from "@react-spring/web";
 
 const navItems = [
   { name: "Home", href: "/" },
@@ -18,6 +19,14 @@ const Navbar = () => {
         <NavbarMenu href={item.href}>{item.name}</NavbarMenu>
       </li>
     ));
+  
+  const props = useSpring({
+    from: { rotate: 0 },
+    to: { rotate: 360 },
+    loop: true,
+    config: { duration: 8000 }, // slow rotation
+  });
+  
 
   return (
     <div className="sticky top-0 w-full z-50 bg-white/70 backdrop-blur-xl border-b border-amber-100/20 shadow-lg shadow-amber-900/5 font-display antialiased">
@@ -52,7 +61,11 @@ const Navbar = () => {
             href={"/"}
             className="text-xl md:text-2xl font-black text-amber-500 flex items-center gap-2 cursor-pointer"
           >
-            <Sun className="fill-primary-container text-primary-container h-6 w-6 md:h-8 md:w-8" />
+            <animated.div
+              style={{ transform: props.rotate.to((r) => `rotate(${r}deg)`) }}
+            >
+              <Sun className="fill-amber-400 text-amber-500 h-6 w-6 md:h-8 md:w-8" />
+            </animated.div>
             SunCart
           </Link>
         </div>
@@ -76,13 +89,14 @@ const Navbar = () => {
               </span>
             </button>
             <div className="flex gap-1 md:gap-1">
-              <Link href={'/login'}
+              <Link
+                href={"/login"}
                 className=" text-amber-500 font-semibold px-3 md:px-4 py-2 hover:bg-amber-50 rounded-lg transition-all text-sm md:text-base"
               >
                 Login
               </Link>
-              <Link href={'/register'}
-                
+              <Link
+                href={"/register"}
                 className="bg-amber-500 text-white font-bold px-4 md:px-6 py-2 rounded-lg shadow-md shadow-amber-900/10 hover:bg-amber-600 transition-all active:scale-95 text-sm md:text-base"
               >
                 Register
