@@ -76,17 +76,17 @@ const Navbar = () => {
               </span>
             </button>
             <div className="flex gap-1 md:gap-1">
-              <button
+              <Link href={'/login'}
                 className=" text-amber-500 font-semibold px-3 md:px-4 py-2 hover:bg-amber-50 rounded-lg transition-all text-sm md:text-base"
               >
                 Login
-              </button>
-              <button
+              </Link>
+              <Link href={'/register'}
                 
                 className="bg-amber-500 text-white font-bold px-4 md:px-6 py-2 rounded-lg shadow-md shadow-amber-900/10 hover:bg-amber-600 transition-all active:scale-95 text-sm md:text-base"
               >
                 Register
-              </button>
+              </Link>
             </div>
           </div>
         </div>
