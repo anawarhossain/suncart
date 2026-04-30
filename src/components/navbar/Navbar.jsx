@@ -4,6 +4,9 @@ import Link from "next/link";
 import React from "react";
 import NavbarMenu from "./NavbarMenu";
 import { useSpring, animated } from "@react-spring/web";
+import { authClient } from "@/lib/auth-client";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const navItems = [
   { name: "Home", href: "/" },
@@ -12,6 +15,11 @@ const navItems = [
 ];
 
 const Navbar = () => {
+  const router = useRouter();
+  const { data: session, isPending } = authClient.useSession();
+  const user = session?.user;
+  // console.log(session, "session")
+  console.log(user, "user");
 
   const renderNavLinks = () =>
     navItems.map((item) => (
@@ -19,14 +27,23 @@ const Navbar = () => {
         <NavbarMenu href={item.href}>{item.name}</NavbarMenu>
       </li>
     ));
-  
+
   const props = useSpring({
     from: { rotate: 0 },
     to: { rotate: 360 },
     loop: true,
     config: { duration: 8000 }, // slow rotation
   });
-  
+
+  const LogoutHandeler = async () => {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/login"); // redirect to login page
+        },
+      },
+    });
+  };
 
   return (
     <div className="sticky top-0 w-full z-50 bg-white/70 backdrop-blur-xl border-b border-amber-100/20 shadow-lg shadow-amber-900/5 font-display antialiased">
@@ -88,19 +105,44 @@ const Navbar = () => {
                 2
               </span>
             </button>
-            <div className="flex gap-1 md:gap-1">
-              <Link
-                href={"/login"}
-                className=" text-amber-500 font-semibold px-3 md:px-4 py-2 hover:bg-amber-50 rounded-lg transition-all text-sm md:text-base"
-              >
-                Login
-              </Link>
-              <Link
-                href={"/register"}
-                className="bg-amber-500 text-white font-bold px-4 md:px-6 py-2 rounded-lg shadow-md shadow-amber-900/10 hover:bg-amber-600 transition-all active:scale-95 text-sm md:text-base"
-              >
-                Register
-              </Link>
+            <div>
+              {isPending ? (
+                <span className="loading loading-spinner text-success"></span>
+              ) : user ? (
+                <div className="flex gap-1 md:gap-3 items-center justify-center">
+                  <Link href={"/profile"}>
+                    <Image
+                      src={user?.image || ""}
+                      alt="User Photo"
+                      width={40}
+                      height={40}
+                      className="w-8 h-8 rounded-full"
+                    />
+                  </Link>
+
+                  <button
+                    onClick={LogoutHandeler}
+                    className="bg-amber-500 text-white font-bold p-2 rounded-lg shadow-md shadow-amber-900/10 hover:bg-amber-600 transition-all active:scale-95 text-sm md:text-base"
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <div className="flex gap-1 md:gap-1">
+                  <Link
+                    href={"/login"}
+                    className=" text-amber-500 font-semibold px-3 md:px-4 py-2 hover:bg-amber-50 rounded-lg transition-all text-sm md:text-base"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    href={"/register"}
+                    className="bg-amber-500 text-white font-bold px-4 md:px-6 py-2 rounded-lg shadow-md shadow-amber-900/10 hover:bg-amber-600 transition-all active:scale-95 text-sm md:text-base"
+                  >
+                    Register
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>
