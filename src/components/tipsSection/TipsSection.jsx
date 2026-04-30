@@ -10,10 +10,10 @@ const TipsSection = () => {
 
   return (
     <div>
-      <section className="w-full bg-surface-container-low py-20">
-        <div className="max-w-7xl mx-auto px-6">
+      <section className="w-full">
+        <div className=" container mx-auto">
           <SectionHeading title={title} subtitle={subtitle} />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pt-10">
             <CareTip
               icon={<Sun className="text-amber-600" />}
               title="Sun Protection"
