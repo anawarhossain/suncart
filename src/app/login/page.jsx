@@ -55,6 +55,11 @@ const LoginPage = () => {
     }
   };
 
+  const HandleGoogleLogin = async () => {
+    const data = await authClient.signIn.social({
+      provider: "google",
+    });
+  };
   return (
     <div>
       <div className="min-h-screen flex items-center justify-center px-6 py-20 bg-linear-to-br from-orange-50 via-white to-amber-100">
@@ -168,6 +173,7 @@ const LoginPage = () => {
 
             {/* Google Button */}
             <button
+              onClick={HandleGoogleLogin}
               type="button"
               className="w-full flex items-center justify-center gap-3 py-3 border border-slate-200 rounded-xl bg-white hover:bg-slate-50 hover:shadow-md transition"
             >
