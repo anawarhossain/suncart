@@ -51,7 +51,7 @@
     "rating": 4.4,
     "stock": 25,
     "description": "Lightweight breathable linen shorts for men, perfect for hot summer days. Features an elastic waistband, two side pockets, and a relaxed fit. Available in multiple earthy tones.",
-    "image": "https://images.unsplash.com/photo-1591195853828-11db59a44f43?w=600&q=80",
+    "image": "https://images.unsplash.com/photo-1736451191560-89617e2850d6?q=80",
     "category": "Clothing"
   },
   {
@@ -119,16 +119,5 @@
     "description": "Heavy-duty 7ft beach umbrella with UV50+ protection and a tilt mechanism for flexible sun blocking. Features a sand anchor base for stability in windy conditions. Comes with a carrying bag.",
     "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80",
     "category": "Beach Gear"
-  },
-  {
-    "id": 12,
-    "name": "Aloe Vera After-Sun Gel",
-    "brand": "GlowGuard",
-    "price": 10,
-    "rating": 4.9,
-    "stock": 35,
-    "description": "Soothing 99% pure aloe vera after-sun gel that instantly relieves sunburn, redness, and skin irritation. Lightweight cooling formula absorbs quickly without a greasy residue. Dermatologist tested and fragrance-free.",
-    "image": "https://images.unsplash.com/photo-1611080626919-7cf5a9dbab12?w=600&q=80",
-    "category": "Skincare"
   }
 ]

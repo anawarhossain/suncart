@@ -1,6 +1,5 @@
 'use client'
 
-
 import useAllProducts from '@/lib/products';
 import { useParams } from 'next/navigation';
 import React from 'react';
@@ -19,7 +18,7 @@ const ProductDetailsPage = () => {
 
 
     return (
-      <div>Details page</div>
+      <div>details</div>
     );
 };
 
