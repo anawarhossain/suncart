@@ -1,25 +1,31 @@
-import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { auth } from "./lib/auth";
 
-// This function can be marked `async` if using `await` inside
 export async function proxy(request) {
   const session = await auth.api.getSession({
-    headers: await headers(),
+    headers: request.headers,
   });
-  console.log(session, "session");
 
   const isLoggedIn = !!session;
   const pathname = request.nextUrl.pathname;
 
-  // protect routes
-  if (!isLoggedIn && pathname.startsWith("/products")) {
+  // /products/1, /products/2 etc. — details page protect
+  // কিন্তু /products (all products page) open
+  const isProductDetailsPage = /^\/products\/\w+/.test(pathname);
+
+  const protectedRoutes = ["/profile"];
+
+  if (
+    !isLoggedIn &&
+    (isProductDetailsPage ||
+      protectedRoutes.some((route) => pathname.startsWith(route)))
+  ) {
     const loginUrl = new URL("/login", request.url);
     loginUrl.searchParams.set("callbackUrl", pathname);
     return NextResponse.redirect(loginUrl);
   }
 
-  // prevent logged user from login page
+  // logged in user কে /login এ যেতে দেবে না
   if (isLoggedIn && pathname === "/login") {
     return NextResponse.redirect(new URL("/", request.url));
   }
@@ -28,5 +34,5 @@ export async function proxy(request) {
 }
 
 export const config = {
-  matcher: ["/products/:path*", "/profile", "/login"],
+  matcher: ["/products/:path+", "/profile", "/login"],
 };
