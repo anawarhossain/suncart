@@ -55,7 +55,7 @@ const ProductDetailsPage = () => {
               <Image
                 width={600}
                 height={600}
-                src={product.image}
+                src={product?.image || null}
                 alt={product.name}
                 className="w-full h-[450px] object-cover hover:scale-105 transition duration-300"
               />

@@ -112,7 +112,7 @@ const Navbar = () => {
                 <div className="flex gap-1 md:gap-3 items-center justify-center">
                   <Link href={"/profile"}>
                     <Image
-                      src={user?.image || ""}
+                      src={user?.image || null}
                       alt="User Photo"
                       width={40}
                       height={40}
