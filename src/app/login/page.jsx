@@ -2,6 +2,7 @@
 import { authClient } from "@/lib/auth-client";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -10,6 +11,10 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
 
   const toastOptions = {
     position: "top-center",
@@ -35,7 +40,6 @@ const LoginPage = () => {
         email: data.email,
         password: data.password,
         rememberMe: true,
-        callbackURL: "/",
       });
 
       console.log(res, error, "---Errors---");
@@ -47,6 +51,7 @@ const LoginPage = () => {
       if (res) {
         toast.success("Login successfully", toastOptions);
         reset();
+        router.push(callbackUrl);
       }
     } catch (err) {
       console.log(err);
