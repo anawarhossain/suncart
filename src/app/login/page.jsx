@@ -1,19 +1,38 @@
-
 import LoginForm from "@/components/form/LoginForm";
+import Link from "next/link";
 import React, { Suspense } from "react";
 
 const LoginPage = () => {
-  
-
-  
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="w-full max-w-md p-8 bg-white rounded-3xl shadow">
-        <h1 className="text-2xl font-bold text-center mb-6">Welcome back</h1>
+    <div>
+      <div className="min-h-screen flex items-center justify-center px-6 py-20 bg-linear-to-br from-orange-50 via-white to-amber-100">
+        {/* Card */}
+        <div className="w-full max-w-md bg-white p-8 rounded-3xl shadow-xl border">
+          {/* Heading */}
+          <div className="text-center mb-6">
+            <h1 className="text-3xl font-extrabold text-slate-900">
+              Welcome back
+            </h1>
+            <p className="text-slate-500 mt-2">
+              Ready for your next summer adventure?
+            </p>
+          </div>
 
-        <Suspense fallback={<p>Loading form...</p>}>
-          <LoginForm />
-        </Suspense>
+          <Suspense fallback={<p>Loading form...</p>}>
+            <LoginForm />
+          </Suspense>
+
+          {/* Footer */}
+          <p className="text-center mt-6 text-slate-500">
+            Don&apos;t have an account?
+            <Link
+              href="/register"
+              className="text-orange-500 font-bold ml-1 hover:underline"
+            >
+              Create one
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
