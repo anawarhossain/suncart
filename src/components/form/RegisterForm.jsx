@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { CiImageOn } from "react-icons/ci";
+import { toast } from "react-toastify";
 
 
 
@@ -48,7 +49,7 @@ const RegisterForm = () => {
           callbackURL: callbackUrl,
         });
 
-        console.log(res, error, "---Errors---");
+        // console.log(res, error, "---Errors---");
         if (error) {
           toast.error(error.message, toastOptions);
           return;
@@ -57,10 +58,11 @@ const RegisterForm = () => {
         if (res) {
           toast.success("Account Create successfully", toastOptions);
           reset();
-          router.push(callbackUrl);
+          router.push("/login");
         }
       } catch (err) {
-        console.log(err);
+        // console.log(err);
+        toast.error("Something went wrong. Try again.", toastOptions);
       } finally {
         setLoading(false);
       }
@@ -69,6 +71,7 @@ const RegisterForm = () => {
     const HandleGoogleLogin = async () => {
       const data = await authClient.signIn.social({
         provider: "google",
+        callbackURL: callbackUrl,
       });
     };
 
@@ -135,7 +138,6 @@ const RegisterForm = () => {
 
             <input
               type="email"
-              name="email"
               required
               placeholder="Enter your email"
               className={`w-full pl-11 pr-12 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 outline-none ${errors.email ? "border-red-500" : ""}`}
@@ -160,7 +162,6 @@ const RegisterForm = () => {
 
             <input
               type={showPassword ? "text" : "password"}
-              name="password"
               required
               placeholder="Enter password"
               className={`w-full pl-11 pr-12 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 outline-none ${errors.password ? "border-red-500" : ""}`}
