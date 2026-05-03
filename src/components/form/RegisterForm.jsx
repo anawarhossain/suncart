@@ -58,6 +58,7 @@ const RegisterForm = () => {
         if (res) {
           toast.success("Account Create successfully", toastOptions);
           reset();
+          await authClient.signOut();
           router.push("/login");
         }
       } catch (err) {
