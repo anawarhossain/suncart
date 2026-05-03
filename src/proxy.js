@@ -11,7 +11,13 @@ export async function proxy(request) {
 
   // /products/1, /products/2 etc. — details page protect
   // কিন্তু /products (all products page) open
-  const isProductDetailsPage = /^\/products\/\w+/.test(pathname);
+  // const isProductDetailsPage = /^\/products\/\w+/.test(pathname);
+  // ❌ \w+ শুধু word characters match করে
+  // কিন্তু URL এ থাকতে পারে: /products/beach-bag, /products/sun-hat
+  // hyphen (-) \w এ নেই, তাই match হবে না!
+
+  // ✅ [^/]+ ব্যবহার করো — slash ছাড়া যেকোনো character match করবে
+  const isProductDetailsPage = /^\/products\/[^/]+/.test(pathname);
 
   const protectedRoutes = ["/profile"];
 
@@ -34,5 +40,5 @@ export async function proxy(request) {
 }
 
 export const config = {
-  matcher: ["/products/:path+", "/profile", "/login"],
+  matcher: ["/products/:path+", "/profile", "/profile/update", "/login"],
 };

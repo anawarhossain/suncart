@@ -7,13 +7,13 @@ import useAllProducts from "@/lib/products";
 import { RefreshCcw, ShieldCheck, ShoppingCart, Truck } from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import React from "react";
+import React, { useMemo } from "react";
 
 const ProductDetailsPage = () => {
   const { id } = useParams();
   const { products, loading, error } = useAllProducts();
 
-  const product = React.useMemo(() => {
+  const product = useMemo(() => {
     return products.find((p) => p.id === Number(id));
   }, [products, id]);
 
@@ -57,7 +57,7 @@ const ProductDetailsPage = () => {
                 height={600}
                 src={product?.image || null}
                 alt={product.name}
-                className="w-full h-[450px] object-cover hover:scale-105 transition duration-300"
+                className="w-full h-100 object-cover hover:scale-105 transition duration-300"
               />
             </div>
 

@@ -1,74 +1,128 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
-import { authClient } from "@/lib/auth-client";
-import { useForm } from "react-hook-form";
-import { useState } from "react";
-import { toast } from "react-toastify";
-import { Eye, EyeOff, Lock, Mail } from "lucide-react";
+import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { CiImageOn } from "react-icons/ci";
 
-const LoginForm = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
 
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/";
 
-  const toastOptions = {
-    position: "top-center",
-    autoClose: 5000,
-    pauseOnHover: true,
-    draggable: true,
-    theme: "light",
-  };
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
+const RegisterForm = () => {
 
-  const LoginFormHandleFunc = async (data) => {
-    try {
-      setLoading(true);
+    const router = useRouter();
+    const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-      const { data: res, error } = await authClient.signIn.email({
-        email: data.email,
-        password: data.password,
-        rememberMe: true,
-        callbackURL: callbackUrl,
+    const searchParams = useSearchParams();
+    const callbackUrl = searchParams.get("callbackUrl") || "/";
+
+    const toastOptions = {
+      position: "top-center",
+      autoClose: 5000,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "light",
+    };
+
+    const {
+      register,
+      handleSubmit,
+      watch,
+      reset,
+      formState: { errors },
+    } = useForm();
+
+    const RegistrationFormHandleFunc = async (data) => {
+      try {
+        setLoading(true);
+
+        const { data: res, error } = await authClient.signUp.email({
+          name: data.name,
+          email: data.email,
+          password: data.password,
+          image: data.photourl,
+          callbackURL: callbackUrl,
+        });
+
+        console.log(res, error, "---Errors---");
+        if (error) {
+          toast.error(error.message, toastOptions);
+          return;
+        }
+
+        if (res) {
+          toast.success("Account Create successfully", toastOptions);
+          reset();
+          router.push(callbackUrl);
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const HandleGoogleLogin = async () => {
+      const data = await authClient.signIn.social({
+        provider: "google",
       });
-
-      console.log(res, error, "---Errors---");
-      if (error) {
-        toast.error(error.message, toastOptions);
-        return;
-      }
-
-      if (res) {
-        toast.success("Login successfully", toastOptions);
-        reset();
-        router.push(callbackUrl);
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const HandleGoogleLogin = async () => {
-    const data = await authClient.signIn.social({
-      provider: "google",
-    });
-  };
+    };
 
   return (
     <div>
-      <form onSubmit={handleSubmit(LoginFormHandleFunc)} className="space-y-6">
+      {/* Form */}
+      <form
+        onSubmit={handleSubmit(RegistrationFormHandleFunc)}
+        className="space-y-6"
+      >
+        {/* Name */}
+        <div>
+          <label className="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-widest">
+            Full Name
+          </label>
+
+          <div className="relative">
+            <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+
+            <input
+              type="text"
+              placeholder="Enter your name"
+              className={`w-full pl-11 pr-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 outline-none ${errors.name ? "border-red-500" : ""}`}
+              {...register("name", { required: "Name is required" })}
+            />
+            {errors.name && (
+              <span className="text-red-500 text-sm mt-1 block">
+                {errors.name.message}
+              </span>
+            )}
+          </div>
+        </div>
+        {/* Image Url */}
+        <div>
+          <label className="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-widest">
+            Your Image URL
+          </label>
+
+          <div className="relative">
+            <CiImageOn className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+
+            <input
+              type="text"
+              placeholder="Enter Your Image URL"
+              className={`w-full pl-11 pr-12 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 outline-none ${errors.photourl ? "border-red-500" : ""}`}
+              {...register("photourl", { required: "Photo URL is Required" })}
+            />
+            {errors.photourl && (
+              <span className="text-red-500 text-sm mt-1 block">
+                {errors.photourl.message}
+              </span>
+            )}
+          </div>
+        </div>
+
         {/* Email */}
         <div>
           <label className="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-widest">
@@ -80,6 +134,7 @@ const LoginForm = () => {
 
             <input
               type="email"
+              name="email"
               required
               placeholder="Enter your email"
               className={`w-full pl-11 pr-12 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 outline-none ${errors.email ? "border-red-500" : ""}`}
@@ -95,29 +150,25 @@ const LoginForm = () => {
 
         {/* Password */}
         <div>
-          <div className="flex justify-between items-center mb-2">
-            <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">
-              Password
-            </label>
-
-            <Link
-              href="#"
-              className="text-xs font-bold text-orange-500 hover:underline"
-            >
-              Forgot?
-            </Link>
-          </div>
+          <label className="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-widest">
+            Password
+          </label>
 
           <div className="relative">
             <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
 
             <input
               type={showPassword ? "text" : "password"}
+              name="password"
               required
-              placeholder="Enter your password"
+              placeholder="Enter password"
               className={`w-full pl-11 pr-12 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 outline-none ${errors.password ? "border-red-500" : ""}`}
               {...register("password", {
                 required: "Password is Required",
+                minLength: {
+                  value: 6,
+                  message: "password must be at least 6 charecter",
+                },
               })}
             />
             {errors.password && (
@@ -129,14 +180,14 @@ const LoginForm = () => {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-900"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"
             >
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
           </div>
         </div>
 
-        {/* Button */}
+        {/* Submit */}
         <button
           type="submit"
           disabled={loading}
@@ -145,10 +196,10 @@ const LoginForm = () => {
           {loading ? (
             <span className="flex items-center gap-2">
               <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-              Logging...
+              Creating...
             </span>
           ) : (
-            "Login"
+            "Create Account"
           )}
         </button>
 
@@ -190,18 +241,19 @@ const LoginForm = () => {
           </span>
         </button>
       </form>
+
       {/* Footer */}
       <p className="text-center mt-6 text-slate-500">
-        Don&apos;t have an account?
+        Already have an account?
         <Link
-          href={`/register?callbackUrl=${callbackUrl}`}
+          href={`/login?callbackUrl=${callbackUrl}`}
           className="text-orange-500 font-bold ml-1 hover:underline"
         >
-          Create one
+          Sign in
         </Link>
       </p>
     </div>
   );
 };
 
-export default LoginForm;
+export default RegisterForm;

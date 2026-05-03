@@ -1,15 +1,15 @@
-"use client";
+"use client"
 
 import { authClient } from "@/lib/auth-client";
 import { useSpring, animated } from "@react-spring/web";
 import { Camera, Mail, Shield, Sun, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 export default function ProfilePage() {
   const { data: session, isPending } = authClient.useSession();
-  const router = useRouter();
+  // const router = useRouter();
 
   const user = session?.user;
 

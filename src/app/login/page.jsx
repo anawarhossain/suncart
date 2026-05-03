@@ -2,6 +2,11 @@ import LoginForm from "@/components/form/LoginForm";
 import Link from "next/link";
 import React, { Suspense } from "react";
 
+export const metadata = {
+  title: "SunCart | Login",
+};
+
+
 const LoginPage = () => {
   return (
     <div>
@@ -22,16 +27,7 @@ const LoginPage = () => {
             <LoginForm />
           </Suspense>
 
-          {/* Footer */}
-          <p className="text-center mt-6 text-slate-500">
-            Don&apos;t have an account?
-            <Link
-              href="/register"
-              className="text-orange-500 font-bold ml-1 hover:underline"
-            >
-              Create one
-            </Link>
-          </p>
+          
         </div>
       </div>
     </div>
