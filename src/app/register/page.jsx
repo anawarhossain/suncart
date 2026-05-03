@@ -1,14 +1,11 @@
-
 import RegisterForm from "@/components/form/RegisterForm";
+import { Suspense } from "react";
 
 export const metadata = {
   title: "SunCart | Register",
 };
 
 const RegisterPage = () => {
-
-  
-
   return (
     <div className="min-h-screen flex items-center justify-center px-6 py-20 bg-linear-to-br from-orange-50 via-white to-amber-100">
       {/* Card */}
@@ -23,7 +20,9 @@ const RegisterPage = () => {
           </p>
         </div>
 
-        <RegisterForm/>
+        <Suspense fallback={<p>Loading form...</p>}>
+          <RegisterForm />
+        </Suspense>
       </div>
     </div>
   );
