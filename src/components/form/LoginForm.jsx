@@ -63,6 +63,7 @@ const LoginForm = () => {
   const HandleGoogleLogin = async () => {
     const data = await authClient.signIn.social({
       provider: "google",
+      callbackURL: callbackUrl,
     });
   };
 
