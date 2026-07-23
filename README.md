@@ -160,7 +160,7 @@ Potential improvements for SunCart:
 SunCart is a demonstration storefront built with modern React, Next.js, and auth integration patterns. Feel free to explore the code and customize it for your own demo or portfolio project.
 
 
-# 👨‍💻 Author
+## 👨‍💻 Author
 **Md Anawar Hossain**
 - **GitHub:** [@anawarhossain](https://github.com/anawarhossain)
 - **Facebook:** [Anawar Hossain](https://web.facebook.com/AnawarHossain55)
